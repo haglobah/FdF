@@ -6,33 +6,48 @@
 #    By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/19 12:37:50 by bhagenlo          #+#    #+#              #
-#    Updated: 2022/06/19 12:48:30 by bhagenlo         ###   ########.fr        #
+#    Updated: 2022/06/19 18:07:35 by bhagenlo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := fdf
 
+SRC := main.c lip.c
+SOBS := $(SRC:.c=.o)
+
+LIBFT := libft
+LIBMLX := MLX42
+LFT := libft/libft.a
+LMLX := MLX42/libmlx42.a
+
 CC := cc
 CF := -Wall -Wextra -Werror
 C_UNSAFE := -Wall
-
-SRC := main.c 
-SOBS := $(SRC:.c=.o)
+LS := $(LFT) $(LMLX) -I include -lglfw -L "/Users/bhagenlo/.brew/opt/glfw/lib/"
 
 RM := rm -rf
 
 all: $(NAME)
 
-$(NAME): 
+$(NAME): $(SRC)
+	@make -C $(LIBFT)
+	@make -C $(LIBMLX)
+	$(CC) $(SRC) $(LS) -o $(NAME)
 
 clean:
-	# clean libft
+	@make -C $(LIBFT) clean
+	@make -C $(LIBMLX) clean
 	$(RM) $(SOBS)
 
 fclean: clean
+	@make -C $(LIBFT) fclean
+	@make -C $(LIBMLX) fclean
 	$(RM) $(NAME)
 
 re: fclean
 	make all
 
-.PHONY: all clean fclean re
+debug: CF += -g
+debug: all
+
+.PHONY: all clean fclean re debug
