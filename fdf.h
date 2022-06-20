@@ -18,27 +18,52 @@
 # include <unistd.h>
 # include <memory.h>
 # include <fcntl.h>
+# include <math.h>
 
 # include "MLX42/include/MLX42/MLX42.h"
 # include "libft/libft.h"
 
-# define WIDTH 256
-# define HEIGHT 256
+# define WIDTH 1000
+# define HEIGHT 660
 
 typedef struct s_iplist
 {
 	int	*ip;
+	int	width;
 	struct s_iplist	*next;
 }	t_lip;
 
-t_lip	*ft_lipelem(int	*iarr);
+t_lip	*ft_lipelem(int *iarr, int width);
 void	ft_lipclear(t_lip **lip);
 //t_lip	*ft_lipcpy(t_lip *lip);
 void	ft_lipapp(t_lip **lip, t_lip *lipel);
+int	ft_liplen(t_lip *lip);
+int	ft_printlip(t_lip *lip);
 
-typedef struct s_grid
+typedef struct s_2dpoint
 {
-	t_lip	*coors;
-}	t_grid;
+	int	x;
+	int	y;
+}	t_2d;
+
+typedef struct s_3dpoint
+{
+	int	x;
+	int	y;
+	int	z;
+}	t_3d;
+
+typedef struct s_3dmapofallpoints
+{
+	t_3d	**arr;
+	int	y;
+	int	z;
+}	t_map;
+
+
+/* typedef struct s_grid */
+/* { */
+/* 	t_lip	*coors; */
+/* }	t_grid; */
 
 #endif
