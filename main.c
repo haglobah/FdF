@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 12:37:54 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/06/19 12:39:42 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/06/21 11:53:41 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,34 +93,58 @@ t_lip	*parse_map(int argc, char *argv[])
 	return (grid);
 }
 
-void	ft_putline(mlx_image_t *img, t_2d p1, t_2d p2, int color)
+//Bresenham
+void	ft_draw_line(mlx_image_t *img, t_2d p0, t_2d p1, int color)
 {
-	//Bresenham
-	while (p1.x < p2.x)
+	int	err;
+	int	e2;
+	t_bres	b;
+
+	b = (t_bres){
+		(t_2d){abs(p1.x - p0.x),
+			abs(p1.y - p0.y)},
+		(t_2d){(p0.x < p1.x) * 2 - 1,
+			((p0.y < p1.y) * 2 - 1)}};
+	err = ((b.d.x > b.d.y) * b.d.x + !(b.d.x < b.d.y) * (-b.d.y))/2;
+	while (1)
 	{
-		mlx_put_pixel(img, p1.x, p1.y, color);
-		p1.x++;
+		mlx_put_pixel(img, p0.x + (WIDTH / 2), p0.y + (HEIGHT / 3), color);
+		if (p0.x == p1.x && p0.y == p1.y)
+			break;
+		e2 = err;
+		if (e2 > -b.d.x)
+		{
+			err -= b.d.y;
+			p0.x += b.s.x;
+		}
+		if (e2 < b.d.y) {
+			err += b.d.x;
+			p0.y += b.s.y;
+		}
 	}
 }
 
-t_map	*mkmap(t_lip *grid)
+int	**mkmap(t_lip *grid)
 {
-	t_map	*map;
+	int	**map;
+	int	*line;
+	int	i;
 
-	map = (t_map *)ft_calloc(ft_liplen(grid), sizeof(int) * grid->width);
+	map = (int **)ft_calloc(ft_liplen(grid), sizeof(int) * grid->width);
 	if (!map)
 	{
 		ft_printf("allocating map failed.");
 		return (NULL);
 	}
-	// DO I NEED THAT?
-	return (NULL);
+	while ();
+	return (map);
 }
 
 t_2d	iso(t_3d p3d)
 {
 	t_2d	p;
 
+	p3d = (t_3d){p3d.x * SCALE, p3d.y * SCALE, p3d.z * (SCALE / 2)};
 	p = (t_2d){(p3d.x - p3d.y) * cos(0.523599),
 		-p3d.z + (p3d.x + p3d.y) * sin(0.523599)};
 	return (p);
@@ -131,50 +155,93 @@ void	draw_point(mlx_image_t *img, t_3d p3d)
 	t_2d	p;
 
 	p = iso(p3d);
-	mlx_put_pixel(img, p.x * 20 + 500, p.y * 20 + 500, 0xFFFFFFFF); //!! Segfaults when values are to big.
+	mlx_put_pixel(img, p.x + (WIDTH / 2), p.y + (HEIGHT / 3), 0xFFFFFFFF); //!! Segfaults when values are to big.
 }
 
-void	draw_conns(mlx_image_t *img,t_3d p)
+int	isfst(t_3d p)
 {
+	return (p.x == 0);
+}
+
+int	istop(t_3d p)
+{
+	return (p.y == 0);
+}
+
+void	draw_conns(mlx_image_t *img, t_3d p)
+{
+	t_3d	here;
+	t_3d	to_left;
+	t_3d	to_top;
+
+	to_top = (t_3d){p.x - 1, p.y, p.z}; //This is not really the top, I have to get the value of (p - 1).z, too.
+	to_left = (t_3d){p.x, p.y - 1, p.z};
+	if (isfst(p) && istop(p))
+		;//nothing
+	else if (istop(p))
+		ft_draw_line(img, iso(here), iso(to_left), WHITE);
+	else if (isfst(p))
+		ft_draw_line(img, iso(here), iso(to_top), WHITE);
+	else
+	{
+		ft_draw_line(img, iso(here), iso(to_left), WHITE);
+		ft_draw_line(img, iso(here), iso(to_top), WHITE);
+	}
 	return ;
+}
+
+void	draw_a_conn(mlx_image_t *img, t_3d p)
+{
+	t_3d	to_left = (t_3d){p.x, p.y - 1, p.z};
+
+	ft_draw_line(img, iso(p), iso(to_left), WHITE);
+}
+
+int	ft_print3d(t_3d p)
+{
+	ft_printf("x: %i, y: %i, z: %i\n", p.x, p.y, p.z);
+	return (0);
 }
 
 void	draw(mlx_image_t *img, int x, int y, t_lip *grid)
 {
 	t_3d	p;
 
-	p = (t_3d){x, y, grid->ip[x]};
+	p = (t_3d){x, y, grid->ip[y]};
+	ft_print3d(p);
 	draw_point(img, p);
-	draw_conns(img, p);
+	draw_a_conn(img, p, grid);
 }
 
 void	draw_fdf(mlx_image_t *img, t_lip *grid)
 {
-	int	i;
-	int	j;
+	int	x;
+	int	y;
 
-	i = 0;
+	x = 0;
 	while (grid != NULL)
 	{
-		j = 0;
-		while (j < grid->width)
+		y = 0;
+		while (y < grid->width)
 		{
-			draw(img, i, j, grid);
-			j++;
+			draw(img, x, y, grid);
+			y++;
 		}
 		grid = grid->next;
-		i++;
+		x++;
 	}
 }
 
 void	draw_wireframe(mlx_image_t *img, t_lip *grid)
 {
-	t_map	*map;
+	int	**map;
 
 	map = mkmap(grid);
 	draw_fdf(img, grid);
-	//isometric projection
-	//ft_putline(img, (t_2d){0, 50}, (t_2d){100, 50}, 0xFFFFFFFF);
+//	isometric projection
+//	ft_draw_line(img, (t_2d){0, 50}, (t_2d){100, 100}, 0xFFFFFFFF);
+//	ft_draw_line(img, (t_2d){100, 100}, (t_2d){100, 0}, 0xFFFFFFFF);
+//	ft_draw_line(img, (t_2d){0, 50}, (t_2d){100, 0}, 0xFFFFFFFF);
 }
 
 int32_t	main(int argc, char *argv[])
@@ -197,7 +264,7 @@ int32_t	main(int argc, char *argv[])
 	mlx_image_to_window(mlx, g_img, 0, 0);   // Adds an image to the render queue.
 	mlx_loop_hook(mlx, &key_hook, mlx);
 	mlx_close_hook(mlx, (void (*)(void *))mlx_close_window, mlx);
-	mlx_put_pixel(g_img, 100, 100, 0xFFFFFFFF);
+//	mlx_put_pixel(g_img, 100, 100, 0xFFFFFFFF);
 	mlx_loop(mlx);
 	mlx_delete_image(mlx, g_img);
 	mlx_terminate(mlx);

@@ -87,10 +87,12 @@ int	ft_printia(int *ip, int width)
 
 int	ft_printlip(t_lip *lip)
 {
+	ft_printf(".fdf:\n");
 	while (lip)
 	{
 		ft_printia(lip->ip, lip->width);
 		lip = lip->next;
 	}
+	ft_printf("\n");
 	return (0);
 }

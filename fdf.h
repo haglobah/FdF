@@ -25,6 +25,8 @@
 
 # define WIDTH 1000
 # define HEIGHT 660
+# define SCALE 10
+# define WHITE 0xFFFFFFFF
 
 typedef struct s_iplist
 {
@@ -60,6 +62,11 @@ typedef struct s_3dmapofallpoints
 	int	z;
 }	t_map;
 
+typedef struct s_bresenham
+{
+	t_2d	d;
+	t_2d	s;
+}	t_bres;
 
 /* typedef struct s_grid */
 /* { */
