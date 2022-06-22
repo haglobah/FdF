@@ -12,7 +12,7 @@
 
 NAME := fdf
 
-SRC := main.c lip.c
+SRC := main.c lip.c draw.c data.c map.c
 SOBS := $(SRC:.c=.o)
 
 LIBFT := libft

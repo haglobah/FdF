@@ -48,14 +48,27 @@ static t_lip	*ft_liplast(t_lip *lip)
 	return (lip);
 }
 
-void	ft_lipapp(t_lip **lip, t_lip *lipel)
+void	ft_lipapp(t_lip **lip, t_lip *new)
 {
-	if (!lip || !lipel)
+	if (!lip || !new)
 		return ;
 	if (*lip)
-		ft_liplast(*lip)->next = lipel;
+		ft_liplast(*lip)->next = new;
 	else
-		*lip = lipel;
+		*lip = new;
+}
+
+void	ft_lipprep(t_lip **lip, t_lip *new)
+{
+	if (!lip || !new)
+		return ;
+	if (*lip)
+	{
+		new->next = *lip;
+		*lip = new;
+	}
+	else
+		*lip = new;
 }
 
 int	ft_liplen(t_lip *lip)

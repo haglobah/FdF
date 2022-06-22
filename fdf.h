@@ -25,7 +25,7 @@
 
 # define WIDTH 1000
 # define HEIGHT 660
-# define SCALE 10
+# define SCALE 20
 # define WHITE 0xFFFFFFFF
 
 typedef struct s_iplist
@@ -38,7 +38,8 @@ typedef struct s_iplist
 t_lip	*ft_lipelem(int *iarr, int width);
 void	ft_lipclear(t_lip **lip);
 //t_lip	*ft_lipcpy(t_lip *lip);
-void	ft_lipapp(t_lip **lip, t_lip *lipel);
+void	ft_lipapp(t_lip **lip, t_lip *new);
+void	ft_lipprep(t_lip **lip, t_lip *new);
 int	ft_liplen(t_lip *lip);
 int	ft_printlip(t_lip *lip);
 
@@ -57,10 +58,16 @@ typedef struct s_3dpoint
 
 typedef struct s_3dmapofallpoints
 {
-	t_3d	**arr;
-	int	y;
-	int	z;
+	int	**arr;
+	int	width;
+	int	len;
 }	t_map;
+
+t_map	*mkmap(t_lip *grid);
+void	delmap(t_map *map);
+int	map_get(t_map *map, int x, int y);
+void	map_set(t_map *map, int x, int y, int z);
+int	ft_printmap(t_map *map);
 
 typedef struct s_bresenham
 {
@@ -68,9 +75,10 @@ typedef struct s_bresenham
 	t_2d	s;
 }	t_bres;
 
-/* typedef struct s_grid */
-/* { */
-/* 	t_lip	*coors; */
-/* }	t_grid; */
+int	ft_strslen(char *strs[]);
+
+void	draw_wireframe(mlx_image_t *img, t_lip *grid);
+t_lip	*parse_file(int argc, char *argv[]);
+t_map	*grid_to_map(t_lip *grid);
 
 #endif
