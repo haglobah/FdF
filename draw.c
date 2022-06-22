@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 12:09:56 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/06/22 13:26:53 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/06/22 15:47:22 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ uint32_t rgb(double ratio)
     case 4: r = 0;   g = 0;   b = 255; r += x; break;
     case 5: r = 255; g = 0;   b = 255; b -= x; break;
     }
-    return r + (g << 8) + (b << 16) + (255 << 24);
+    return (r << 24) | (g << 16) | (b << 8) | (255);
 }
 
 void	hrange(t_map *map, int *minmax)
