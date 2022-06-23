@@ -25,7 +25,7 @@
 
 # define WIDTH 1000
 # define HEIGHT 660
-# define SCALE 20
+# define SCALE 40
 # define WHITE 0xFFFFFFFF
 
 typedef struct s_iplist

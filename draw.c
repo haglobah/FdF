@@ -58,24 +58,75 @@ void	hrange(t_map *map, int *minmax)
 	}
 }
 
-int	color(t_map *map, t_3d p)
+int	color(t_map *map, t_3d p, double percentage)
 {
 	int	range[2];
-	int	min;
-	int	color;
+	double	absrange;
 
 	hrange(map, range);
 //	p.z -= range[0];
-	ft_printf("clr: %x\n", rgb((double)p.z / 10.0));
-//	color = rgb((double)p.z / (double)(range[1] - range[0]));
-	return (rgb((double)p.z / 10.0));
+//	ft_printf("clr: %x\n", rgb((double)p.z / 10.0));
+	absrange = (double)range[1] - (double)range[0];
+	if (absrange == 0.0)
+		absrange = 1.0;
+	return (rgb((((double)p.z - range[0])* percentage) / absrange));
 }
 
-void	ft_draw_line(mlx_image_t *img, t_2d p0, t_2d p1, t_3d p, t_map *map)
+int	get_light(int start, int end, double percentage)
+{
+	return ((int)((1 - percentage) * start + percentage * end));
+}
+
+/*
+** Get color. Result depends on point position.
+** This function is needed to create linear gradient.
+*/
+
+double	percent(int start, int end, int current)
+{
+	double	placement;
+	double	distance;
+
+	placement = current - start;
+	distance = end - start;
+	return ((distance == 0) ? 1.0 : (placement / distance));
+}
+
+int	get_color(t_3d current, t_3d start, t_3d end, t_bres b, t_map *map)
+{
+	double	percentage;
+
+	if (b.d.x > b.d.y)
+		percentage = percent(start.x, end.x, current.x);
+	else
+		percentage = percent(start.y, end.y, current.y);
+	if (start.z == end.z)
+		return (color(map, current, 1.0));
+	if (start.z < end.z)
+		percentage = 1.0 - percentage;
+	return (color(map, current, percentage));
+}
+
+int	clr(t_3d p, t_map *map)
+{
+	int	range[2];
+	double	absrange;
+
+	hrange(map, range);
+	absrange = (double)range[1] - (double)range[0];
+	if (absrange == 0.0)
+		absrange = 1.0;
+	return (rgb(((double)p.z - (double)range[0]) / absrange));
+}
+
+int	get_clr();
+
+void	ft_draw_line(mlx_image_t *img, t_3d p0, t_3d p1, t_map *map)
 {
 	int	err;
 	int	e2;
 	t_bres	b;
+	t_3d	start;
 
 	b = (t_bres){
 		(t_2d){abs(p1.x - p0.x),
@@ -83,9 +134,10 @@ void	ft_draw_line(mlx_image_t *img, t_2d p0, t_2d p1, t_3d p, t_map *map)
 		(t_2d){(p0.x < p1.x) * 2 - 1,
 			((p0.y < p1.y) * 2 - 1)}};
 	err = ((b.d.x > b.d.y) * b.d.x + !(b.d.x < b.d.y) * (-b.d.y))/2;
+	start = p0;
 	while (1)
 	{
-		mlx_put_pixel(img, p0.x + (WIDTH / 2), p0.y + (HEIGHT / 3), color(map, p));
+		mlx_put_pixel(img, p0.x + (WIDTH / 2), p0.y + (HEIGHT / 3), get_color(p0, start, p1, b, map));
 		if (p0.x == p1.x && p0.y == p1.y)
 			break;
 		e2 = err;
@@ -93,33 +145,36 @@ void	ft_draw_line(mlx_image_t *img, t_2d p0, t_2d p1, t_3d p, t_map *map)
 		{
 			err -= b.d.y;
 			p0.x += b.s.x;
+			p0.z += (p0.z < p1.z) * 1 + (p0.z > p1.z) * -1;
 		}
 		if (e2 < b.d.y) {
 			err += b.d.x;
 			p0.y += b.s.y;
+			p0.z += (p0.z < p1.z) * 1 + (p0.z > p1.z) * -1;
 		}
 	}
 }
 
-t_2d	iso(t_3d p3d)
+t_3d	iso(t_3d p3d)
 {
-	t_2d	p;
+	t_3d	p_iso;
 
 	p3d = (t_3d){p3d.x * SCALE, p3d.y * SCALE, p3d.z * (SCALE / 2)};
-	p = (t_2d){(p3d.x - p3d.y) * cos(0.523599),
-		-p3d.z + (p3d.x + p3d.y) * sin(0.523599)};
-	return (p);
+	p_iso = (t_3d){(p3d.x - p3d.y) * cos(0.523599),
+		-p3d.z + (p3d.x + p3d.y) * sin(0.523599),
+		p3d.z / (SCALE / 2)};
+	return (p_iso);
 }
 
 void	draw_point(mlx_image_t *img, t_3d p3d, t_map *map)
 {
-	t_2d	p;
+	t_3d	p;
 
 	p = iso(p3d);
 	mlx_put_pixel(img,
 				  p.x + (WIDTH / 2),
 				  p.y + (HEIGHT / 3),
-				  color(map, p3d));//!! Segfaults when values to big
+				  color(map, p3d, 1.0));//!! Segfaults when values to big
 }
 
 int	isfst(t_3d p)
@@ -142,19 +197,19 @@ void	draw_conns(mlx_image_t *img, t_3d p, t_map *map)
 	else if (istop(p))
 	{
 		to_left = (t_3d){p.x - 1, p.y, map_get(map, p.x - 1, p.y)};
-		ft_draw_line(img, iso(p), iso(to_left), p, map);
+		ft_draw_line(img, iso(p), iso(to_left), map);
 	}
 	else if (isfst(p))
 	{
 		to_top = (t_3d){p.x, p.y - 1, map_get(map, p.x, p.y - 1)};
-		ft_draw_line(img, iso(p), iso(to_top), p, map);
+		ft_draw_line(img, iso(p), iso(to_top), map);
 	}
 	else
 	{
 		to_left = (t_3d){p.x - 1, p.y, map_get(map, p.x - 1, p.y)};
 		to_top = (t_3d){p.x, p.y - 1, map_get(map, p.x, p.y - 1)};
-		ft_draw_line(img, iso(p), iso(to_left), p, map);
-		ft_draw_line(img, iso(p), iso(to_top), p, map);
+		ft_draw_line(img, iso(p), iso(to_left), map);
+		ft_draw_line(img, iso(p), iso(to_top), map);
 	}
 	return ;
 }
@@ -163,7 +218,7 @@ void	draw_a_conn(mlx_image_t *img, t_3d p, t_map *map)
 {
 	t_3d	to_left = (t_3d){0, 1, map_get(map, 0, 1)};
 
-	ft_draw_line(img, iso(p), iso(to_left), p, map);
+	ft_draw_line(img, iso(p), iso(to_left), map);
 }
 
 int	ft_print3d(t_3d p)
