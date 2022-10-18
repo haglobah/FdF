@@ -6,13 +6,13 @@
 #    By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/19 12:37:50 by bhagenlo          #+#    #+#              #
-#    Updated: 2022/06/19 18:07:35 by bhagenlo         ###   ########.fr        #
+#    Updated: 2022/10/18 16:15:53 by bhagenlo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := fdf
 
-SRC := main.c lip.c draw.c data.c map.c
+SRC := main.c lip.c draw.c data.c map.c 3d.c
 SOBS := $(SRC:.c=.o)
 
 LIBFT := libft

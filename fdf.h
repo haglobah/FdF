@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 12:37:57 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/06/19 12:38:43 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/18 16:54:48 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,35 @@
 # define SCALE 40
 # define WHITE 0xFFFFFFFF
 
+typedef struct s_3dmapofallpoints
+{
+	int	**arr;
+	int	width;
+	int	len;
+	int	range[2];
+}	t_map;
+
+typedef struct s_2dpoint
+{
+	int	x;
+	int	y;
+	uint32_t	clr;
+}	t_2d;
+
+typedef struct s_3dpoint
+{
+	int	x;
+	int	y;
+	int	z;
+	uint32_t	clr;
+}	t_3d;
+
+typedef struct s_bresenham
+{
+	t_2d	d;
+	t_2d	s;
+}	t_bres;
+
 typedef struct s_iplist
 {
 	int	*ip;
@@ -43,37 +72,21 @@ void	ft_lipprep(t_lip **lip, t_lip *new);
 int	ft_liplen(t_lip *lip);
 int	ft_printlip(t_lip *lip);
 
-typedef struct s_2dpoint
-{
-	int	x;
-	int	y;
-}	t_2d;
+// points
+uint32_t	rgb(double ratio);
+int	assign_color(int z, int *range);
+t_3d	iso(t_3d p3d);
+t_3d	mk_3d(t_map *map, int x, int y);
+int	ft_print3d(t_3d p);
+int	isfst(t_3d p);
+int	istop(t_3d p);
 
-typedef struct s_3dpoint
-{
-	int	x;
-	int	y;
-	int	z;
-}	t_3d;
-
-typedef struct s_3dmapofallpoints
-{
-	int	**arr;
-	int	width;
-	int	len;
-}	t_map;
-
+//map
 t_map	*mkmap(t_lip *grid);
 void	delmap(t_map *map);
 int	map_get(t_map *map, int x, int y);
 void	map_set(t_map *map, int x, int y, int z);
 int	ft_printmap(t_map *map);
-
-typedef struct s_bresenham
-{
-	t_2d	d;
-	t_2d	s;
-}	t_bres;
 
 int	ft_strslen(char *strs[]);
 
