@@ -6,13 +6,14 @@
 #    By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/19 12:37:50 by bhagenlo          #+#    #+#              #
-#    Updated: 2022/10/19 14:49:36 by bhagenlo         ###   ########.fr        #
+#    Updated: 2022/10/19 17:19:48 by bhagenlo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := fdf
 
-SRC := main.c lip.c draw.c data.c map.c 3d.c
+SRC := main.c lip.c lip2.c draw.c bresenham.c data.c map.c mk_map.c 3d.c \
+		color_interpolation.c color.c rgb.c
 SOBS := $(SRC:.c=.o)
 
 LIBFT := libft
