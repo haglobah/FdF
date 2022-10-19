@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 12:09:56 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/19 15:03:43 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/19 15:49:57 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,25 @@ int	get_color(t_3d current, t_3d start, t_3d end, t_bres b, t_map *map)
 	return (color(start, end, percentage));
 }
 
+int	offset_x(int window_width)
+{
+	return (window_width / 4);
+}
+int	offset_y(int window_height)
+{
+	return (window_height / 8);
+}
+
+void	put_pxl(mlx_image_t *img, t_3d p0, int color)
+{
+	int	pxl_x = p0.x + offset_x(WIDTH) + 150;
+	int pxl_y = p0.y + offset_y(HEIGHT) + 40;
+	if (pxl_x >= WIDTH || pxl_x < 0
+	|| pxl_y >= HEIGHT || pxl_y < 0)
+		return;
+	mlx_put_pixel(img, pxl_x, pxl_y, color);
+}
+
 void	ft_draw_line(mlx_image_t *img, t_3d p0, t_3d p1, t_map *map)
 {
 	int	err;
@@ -82,8 +101,7 @@ void	ft_draw_line(mlx_image_t *img, t_3d p0, t_3d p1, t_map *map)
 	start = p0;
 	while (1)
 	{
-//		ft_print3d(p0);
-		mlx_put_pixel(img, p0.x + (WIDTH / 2), p0.y + (HEIGHT / 3), get_color(p0, start, p1, b, map));
+		put_pxl(img, p0, get_color(p0, start, p1, b, map));
 		if (p0.x == p1.x && p0.y == p1.y)
 			break;
 		e2 = err;
@@ -107,8 +125,8 @@ void	draw_point(mlx_image_t *img, t_3d p3d, t_map *map)
 
 	p = iso(p3d);
 	mlx_put_pixel(img,
-				  p.x + (WIDTH / 2),
-				  p.y + (HEIGHT / 3),
+				  p.x + offset_x(WIDTH),
+				  p.y + offset_y(HEIGHT),
 				  p.clr);//!! Segfaults when values to big
 }
 
@@ -139,19 +157,12 @@ void	draw_conns(mlx_image_t *img, t_3d p, t_map *map)
 	return ;
 }
 
-void	draw_a_conn(mlx_image_t *img, t_3d p, t_map *map)
-{
-	t_3d	to_left = mk_3d(map, 0, 1);
-
-	ft_draw_line(img, iso(p), iso(to_left), map);
-}
-
 void	draw(mlx_image_t *img, int x, int y, t_map *map)
 {
 	t_3d	p;
 
 	p = mk_3d(map, x, y);
-	draw_point(img, p, map);
+//	draw_point(img, p, map);
 	draw_conns(img, p, map);
 }
 
