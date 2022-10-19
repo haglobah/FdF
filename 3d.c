@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:09:51 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/18 16:54:19 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/19 14:48:00 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,11 @@ uint32_t rgb(double ratio)
 int	assign_color(int z, int *range)
 {
 	double	absrange = (double)range[1] - (double)range[0];
-	double	ratio = ((double)z - (double) range[0])/ absrange;
+
+	double	ratio = ((double)z - (double)range[0])/ absrange;
+	printf("%f, ", ratio);
 	uint32_t	color = rgb(ratio);
+	
 	return (color);
 }
 
@@ -77,7 +80,7 @@ t_3d	iso(t_3d p3d)
 	p3d.x *= SCALE;
 	p3d.y *= SCALE;
 	x = (p3d.x - p3d.y) * cos(0.523599);
-	y = -(p3d.z * (SCALE / 2)) + (p3d.x + p3d.y) * sin(0.523599);
+	y = -(p3d.z * (SCALE / 16)) + (p3d.x + p3d.y) * sin(0.523599);
 	p_iso.x = x;
 	p_iso.y = y;
 	p_iso.z = p3d.z;

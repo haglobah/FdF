@@ -6,28 +6,36 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 12:09:56 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/18 16:55:10 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/19 15:03:43 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	color(t_map *map, t_3d p, double percentage)
+int	red(int clr)
 {
-	double	absrange;
-
-//	p.z -= range[0];
-//	ft_printf("clr: %x\n", rgb((double)p.z / 10.0));
-//	absrange = (double)map->range[1] - (double)map->range[0];
-	absrange = (double)10 - (double)(-10);
-	if (absrange == 0.0)
-		absrange = 1.0;
-	return (rgb(((double)p.z - (double)(-10)) / 20.0));
+	return ((clr >> 24) & 0xFF);
+}
+int	green(int clr)
+{
+	return ((clr >> 16) & 0xFF);
+}
+int	blue(int clr)
+{
+	return ((clr >> 8) & 0xFF);
 }
 
 int	get_light(int start, int end, double percentage)
 {
 	return ((int)((1 - percentage) * start + percentage * end));
+}
+
+int	color(t_3d s, t_3d e, double percent)
+{
+	int r = get_light(red(s.clr), red(e.clr), percent);
+	int g = get_light(green(s.clr), green(e.clr), percent);
+	int b = get_light(blue(s.clr), blue(e.clr), percent);
+	return (r << 24) | (g << 16) | (b << 8) | (255);
 }
 
 /*
@@ -53,14 +61,10 @@ int	get_color(t_3d current, t_3d start, t_3d end, t_bres b, t_map *map)
 		percentage = percent(start.x, end.x, current.x);
 	else
 		percentage = percent(start.y, end.y, current.y);
-	if (start.z == end.z)
-		return (color(map, current, 1.0));
-	if (start.z < end.z)
-		percentage = 1.0 - percentage;
-	return (color(map, current, percentage));
+	if (current.clr == end.clr)
+		return (current.clr);
+	return (color(start, end, percentage));
 }
-
-int	interpolate_color();
 
 void	ft_draw_line(mlx_image_t *img, t_3d p0, t_3d p1, t_map *map)
 {
@@ -78,8 +82,8 @@ void	ft_draw_line(mlx_image_t *img, t_3d p0, t_3d p1, t_map *map)
 	start = p0;
 	while (1)
 	{
-		ft_print3d(p0);
-		mlx_put_pixel(img, p0.x + (WIDTH / 2), p0.y + (HEIGHT / 3), p0.clr);
+//		ft_print3d(p0);
+		mlx_put_pixel(img, p0.x + (WIDTH / 2), p0.y + (HEIGHT / 3), get_color(p0, start, p1, b, map));
 		if (p0.x == p1.x && p0.y == p1.y)
 			break;
 		e2 = err;

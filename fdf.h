@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 12:37:57 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/18 16:54:48 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/19 14:58:27 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 # define WIDTH 1000
 # define HEIGHT 660
-# define SCALE 40
+# define SCALE 50
 # define WHITE 0xFFFFFFFF
 
 typedef struct s_3dmapofallpoints
