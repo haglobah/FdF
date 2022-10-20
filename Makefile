@@ -6,7 +6,7 @@
 #    By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/19 12:37:50 by bhagenlo          #+#    #+#              #
-#    Updated: 2022/10/20 09:50:13 by bhagenlo         ###   ########.fr        #
+#    Updated: 2022/10/20 09:54:11 by bhagenlo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ all: $(NAME)
 $(NAME): $(SRC)
 	@if [ ! -d "libft" ]; then git clone git@github.com:haglobah/libft.git; fi
 	@make -C $(LIBFT)
+	@if [ ! -d "MLX42" ]; then git clone https://github.com/codam-coding-college/MLX42.git; fi
 	@make -C $(LIBMLX)
 	$(CC) $(SRC) $(LS) -o $(NAME)
 
