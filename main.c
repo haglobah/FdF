@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 12:37:54 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/19 16:53:51 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:14:10 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int32_t	main(int argc, char *argv[])
 	}
 	g_img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	draw_wireframe(g_img, grid);
+	ft_lipclear(&grid);
 	mlx_image_to_window(mlx, g_img, 0, 0);
 	mlx_loop_hook(mlx, &key_hook, mlx);
 	mlx_close_hook(mlx, (void (*)(void *))mlx_close_window, mlx);

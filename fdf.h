@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 12:37:57 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/20 09:35:15 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:11:54 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 # define WIDTH 1000
 # define HEIGHT 660
-# define SCALE 10
+# define SCALE 100
 # define WHITE 0xFFFFFFFF
 
 typedef struct s_rgb
@@ -80,6 +80,9 @@ typedef struct s_iplist
 	int				width;
 	struct s_iplist	*next;
 }	t_lip;
+
+//parse
+void		free_parse(t_parse *p);
 
 t_lip		*ft_lipelem(int *iarr, int width);
 void		ft_lipclear(t_lip **lip);

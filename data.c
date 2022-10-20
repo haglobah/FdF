@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 12:10:28 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/19 17:13:11 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:10:34 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,11 @@ t_lip	*parse_file(int argc, char *argv[])
 	while (1)
 	{
 		p.line = get_next_line(p.fd);
-		if (!p.line)
+		if (p.line == NULL)
 			break ;
 		p.zs = ft_split(p.line, ' ');
 		lipel = ft_strs_to_lip(p.zs);
+		free_parse(&p);
 		ft_lipapp(&grid, lipel);
 	}
 	close(p.fd);
