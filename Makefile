@@ -6,7 +6,7 @@
 #    By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/19 12:37:50 by bhagenlo          #+#    #+#              #
-#    Updated: 2022/10/19 17:19:48 by bhagenlo         ###   ########.fr        #
+#    Updated: 2022/10/20 09:50:13 by bhagenlo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ RM := rm -rf
 all: $(NAME)
 
 $(NAME): $(SRC)
+	@if [ ! -d "libft" ]; then git clone git@github.com:haglobah/libft.git; fi
 	@make -C $(LIBFT)
 	@make -C $(LIBMLX)
 	$(CC) $(SRC) $(LS) -o $(NAME)
