@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 12:37:57 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/20 12:11:54 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:35:17 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_2dpoint
 {
 	int			x;
 	int			y;
-	uint32_t	clr;
 }	t_2d;
 
 typedef struct s_3dpoint
@@ -114,7 +113,7 @@ int			ft_printmap(t_map *map);
 
 int			ft_strslen(char *strs[]);
 
-void		ft_draw_line(mlx_image_t *img, t_3d p0, t_3d p1, t_map *map);
+void		ft_draw_line(mlx_image_t *img, t_3d p0, t_3d p1);
 void		draw_wireframe(mlx_image_t *img, t_lip *grid);
 t_lip		*parse_file(int argc, char *argv[]);
 t_map		*grid_to_map(t_lip *grid);

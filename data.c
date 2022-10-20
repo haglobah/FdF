@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 12:10:28 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/20 12:10:34 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:33:31 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,11 @@ int	ft_strslen(char *strs[])
 	return (i);
 }
 
-static int	ft_printstrs(char *strs[])
-{
-	int	i;
-
-	i = 0;
-	while (strs[i] != NULL)
-	{
-		ft_printf("%s\n", strs[i]);
-		i++;
-	}
-	return (i);
-}
-
 t_lip	*ft_strs_to_lip(char *zs[])
 {
-	int	i;
-	int	*iarr;
-	int	alen;
-	int	tmp;
+	int		i;
+	int		*iarr;
+	int		alen;
 
 	i = 0;
 	alen = ft_strslen(zs);

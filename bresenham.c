@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 17:07:24 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/19 17:17:21 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:35:23 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	put_pxl(mlx_image_t *img, t_3d p0, int color)
 	mlx_put_pixel(img, pxl_x, pxl_y, color);
 }
 
-void	ft_draw_line(mlx_image_t *img, t_3d p0, t_3d p1, t_map *map)
+void	ft_draw_line(mlx_image_t *img, t_3d p0, t_3d p1)
 {
 	t_bres	b;
 	t_3d	start;

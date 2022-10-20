@@ -6,7 +6,7 @@
 #    By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/19 12:37:50 by bhagenlo          #+#    #+#              #
-#    Updated: 2022/10/20 12:11:22 by bhagenlo         ###   ########.fr        #
+#    Updated: 2022/10/20 12:36:38 by bhagenlo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ LFT := libft/libft.a
 LMLX := MLX42/libmlx42.a
 
 CC := cc
-CF := -Wall -Wextra -Werror
+CF := -Wall -Wextra -Werror # -I../LeakSanitizer/include -L../LeakSanitizer -llsan -lc++
+# CF := -g -I../LeakSanitizer/include -L../LeakSanitizer -llsan -lc++
 C_UNSAFE := -Wall
 LS := $(LFT) $(LMLX) -I include -lglfw -L "/Users/bhagenlo/.brew/opt/glfw/lib/"
 
@@ -35,7 +36,7 @@ $(NAME): $(SRC) fdf.h
 	@make -C $(LIBFT)
 	@if [ ! -d "MLX42" ]; then git clone https://github.com/codam-coding-college/MLX42.git; fi
 	@make -C $(LIBMLX)
-	$(CC) $(SRC) $(LS) -o $(NAME)
+	$(CC) $(CF) $(SRC) $(LS) -o $(NAME)
 
 clean:
 	@make -C $(LIBFT) clean

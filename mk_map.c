@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:45:15 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/19 16:52:11 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:27:26 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	fill_arr(t_map *map, t_lip *grid, int **arr)
 t_map	*mkmap(t_lip *grid)
 {
 	int		**arr;
-	int		*range;
 	t_map	*map;
 
 	map = (t_map *)ft_calloc(1, sizeof(t_map));

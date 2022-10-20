@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:54:23 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/19 16:56:01 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:33:13 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	ft_lipclear(t_lip **lip)
 	while (*lip)
 	{
 		tmp = (*lip)->next;
+		free((*lip)->ip);
 		free(*lip);
 		*lip = tmp;
 	}

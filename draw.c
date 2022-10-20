@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 12:09:56 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/19 17:07:43 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:24:39 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@ void	draw_conns(mlx_image_t *img, t_3d p, t_map *map)
 	else if (istop(p))
 	{
 		to_left = mk_3d(map, p.x - 1, p.y);
-		ft_draw_line(img, iso(p), iso(to_left), map);
+		ft_draw_line(img, iso(p), iso(to_left));
 	}
 	else if (isfst(p))
 	{
 		to_top = mk_3d(map, p.x, p.y - 1);
-		ft_draw_line(img, iso(p), iso(to_top), map);
+		ft_draw_line(img, iso(p), iso(to_top));
 	}
 	else
 	{
 		to_left = mk_3d(map, p.x - 1, p.y);
 		to_top = mk_3d(map, p.x, p.y - 1);
-		ft_draw_line(img, iso(p), iso(to_left), map);
-		ft_draw_line(img, iso(p), iso(to_top), map);
+		ft_draw_line(img, iso(p), iso(to_left));
+		ft_draw_line(img, iso(p), iso(to_top));
 	}
 }
 
