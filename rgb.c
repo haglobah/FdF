@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:29:16 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/19 16:33:21 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/20 09:31:18 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	assign_color(int z, int *range)
 
 	absrange = (double)range[1] - (double)range[0];
 	ratio = ((double)z - (double)range[0]) / absrange;
-	printf("%f, ", ratio);
 	color = rgb(ratio);
 	return (color);
 }

@@ -6,7 +6,7 @@
 /*   By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 12:37:57 by bhagenlo          #+#    #+#             */
-/*   Updated: 2022/10/19 17:23:15 by bhagenlo         ###   ########.fr       */
+/*   Updated: 2022/10/20 09:35:15 by bhagenlo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 # define WIDTH 1000
 # define HEIGHT 660
-# define SCALE 120
+# define SCALE 10
 # define WHITE 0xFFFFFFFF
 
 typedef struct s_rgb
