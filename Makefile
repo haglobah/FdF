@@ -6,7 +6,7 @@
 #    By: bhagenlo <bhagenlo@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/19 12:37:50 by bhagenlo          #+#    #+#              #
-#    Updated: 2022/10/24 17:15:05 by bhagenlo         ###   ########.fr        #
+#    Updated: 2022/10/24 17:23:59 by bhagenlo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ LFT := libft/libft.a
 LMLX := MLX42/libmlx42.a
 
 CC := cc
-CF := -Wall -Wextra -Werror  -I../LeakSanitizer/include -L../LeakSanitizer -llsan -lc++
+CF := -Wall -Wextra -Werror # -I../LeakSanitizer/include -L../LeakSanitizer -llsan -lc++
 C_UNSAFE := -Wall
 LS := $(LFT) $(LMLX) -I include -lglfw -L "/Users/bhagenlo/.brew/opt/glfw/lib/"
 
